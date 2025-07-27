@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Users</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+
+  <h1>All Users</h1>
+
+  <% if (users.length > 0) { %>
+    <ul>
+      <% users.forEach(user => { %>
+        <li>
+          <a href="/users/<%= user._id %>"><%= user.username %></a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No users found.</p>
+  <% } %>
+
+  <a href="/">← Back to Home</a>
+</body>
+</html>
