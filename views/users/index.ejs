@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>All Users</title>
+  <meta charset="UTF-8" />
+  <title>Our Community</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <h1>All Users</h1>
+  <h1>👥 Explore Our Community</h1>
 
-  <% if (users.length > 0) { %>
+  <% if (users.length === 0) { %>
+    <p>No users found.</p>
+  <% } else { %>
     <ul>
       <% users.forEach(user => { %>
-        <li>
-          <a href="/users/<%= user._id %>"><%= user.username %></a>
-        </li>
+        <li><%= user.username %></li>
       <% }) %>
     </ul>
-  <% } else { %>
-    <p>No users found.</p>
   <% } %>
-
-  <a href="/">← Back to Home</a>
 </body>
 </html>
+
+

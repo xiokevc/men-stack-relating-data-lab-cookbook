@@ -1,75 +1,69 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const User = require('../models/user.js');
+const User = require('../models/user');
 
-// INDEX - show all pantry items for a user
+// INDEX - list foods
 router.get('/', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    res.render('foods/index.ejs', { pantry: user.pantry, user });
+    res.render('foods/index.ejs', { pantry: user.pantry });
   } catch (err) {
     console.error(err);
     res.redirect('/');
   }
 });
 
-// NEW - show form to add new pantry item
-router.get('/new', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    res.render('foods/new.ejs', { user });
-  } catch (err) {
-    console.error(err);
-    res.redirect('/');
-  }
+// NEW - form to add food
+router.get('/new', (req, res) => {
+  res.render('foods/new.ejs');
 });
 
-// CREATE - add new pantry item
+// CREATE - add food
 router.post('/', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    user.pantry.push(req.body);
+    user.pantry.push({ name: req.body.name });
     await user.save();
-    res.redirect(`/users/${req.params.userId}/foods`);
+    res.redirect(`/users/${user._id}/foods`);
   } catch (err) {
     console.error(err);
     res.redirect('/');
   }
 });
 
-// EDIT - show edit form for a specific pantry item
+// EDIT - form to edit food
 router.get('/:itemId/edit', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const food = user.pantry.id(req.params.itemId);
-    res.render('foods/edit.ejs', { user, food });
+    res.render('foods/edit.ejs', { food });
   } catch (err) {
     console.error(err);
     res.redirect('/');
   }
 });
 
-// UPDATE - process the edit form submission
+// UPDATE - modify food
 router.put('/:itemId', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const food = user.pantry.id(req.params.itemId);
-    food.set(req.body);
+    food.set({ name: req.body.name });
     await user.save();
-    res.redirect(`/users/${req.params.userId}/foods`);
+    res.redirect(`/users/${user._id}/foods`);
   } catch (err) {
     console.error(err);
     res.redirect('/');
   }
 });
 
-// DELETE - remove a pantry item
+// DELETE - remove food
 router.delete('/:itemId', async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    user.pantry.id(req.params.itemId).remove();
+    user.pantry.id(req.params.itemId).deleteOne();
     await user.save();
-    res.redirect(`/users/${req.params.userId}/foods`);
+    res.redirect(`/users/${user._id}/foods`);
   } catch (err) {
     console.error(err);
     res.redirect('/');
@@ -77,4 +71,5 @@ router.delete('/:itemId', async (req, res) => {
 });
 
 module.exports = router;
+
 

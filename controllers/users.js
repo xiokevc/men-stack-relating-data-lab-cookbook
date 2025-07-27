@@ -2,26 +2,33 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
-// Community index route - Show all users
+// INDEX – show all users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({});
     res.render('users/index.ejs', { users });
   } catch (err) {
-    console.log(err);
-    res.redirect('/');
+    res.status(500).send(err.message);
   }
 });
 
-// Show route - Show a single user's pantry (read-only)
-router.get('/:userId', async (req, res) => {
+// SHOW – individual user page
+router.get('/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
-    if (!user) return res.redirect('/users');
+    const user = await User.findById(req.params.id);
     res.render('users/show.ejs', { user });
   } catch (err) {
-    console.log(err);
-    res.redirect('/users');
+    res.status(500).send(err.message);
+  }
+});
+
+// Show route — show one user's pantry
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.render('users/show.ejs', { user });
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 

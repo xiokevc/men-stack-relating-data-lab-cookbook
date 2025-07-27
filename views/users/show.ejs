@@ -12,15 +12,13 @@
   <% if (user.pantry.length > 0) { %>
     <ul>
       <% user.pantry.forEach(item => { %>
-        <li>
-          <strong><%= item.name %></strong> — <%= item.quantity %> <%= item.unit %>
-        </li>
+        <li><strong><%= item.name %></strong> — Quantity: <%= item.quantity %></li>
       <% }) %>
     </ul>
   <% } else { %>
-    <p>This user has no items in their pantry.</p>
+    <p>This user hasn't added any pantry items yet.</p>
   <% } %>
-
-  <a href="/">← Back to Home</a>
 </body>
 </html>
+
+

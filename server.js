@@ -2,7 +2,6 @@
 const dotenv = require('dotenv');
 require('dotenv').config();
 
-
 // =================== Dependencies ===================
 const express = require('express');
 const mongoose = require('mongoose');
@@ -15,6 +14,7 @@ const passUserToView = require('./middleware/pass-user-to-view.js');
 // =================== Controllers ===================
 const authController = require('./controllers/auth.js');
 const foodsController = require('./controllers/foods.js');
+const usersController = require('./controllers/users.js');
 
 // =================== App Config ===================
 const app = express();
@@ -41,7 +41,7 @@ app.use(
 
 // =================== Custom Middleware ===================
 app.use(passUserToView);
-
+app.use('/users', usersController);
 // =================== Routes ===================
 
 // Home route
