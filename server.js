@@ -1,6 +1,7 @@
 // =================== Environment Setup ===================
 const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
+
 
 // =================== Dependencies ===================
 const express = require('express');
